@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import {useContext, useEffect, useState} from "react";
 import {ProductsContext} from "../components/ProductsContext";
+import Navigation from "@/components/Navigation";
 
 export default function CheckoutPage() {
   const {selectedProducts,setSelectedProducts} = useContext(ProductsContext);
@@ -41,6 +42,8 @@ export default function CheckoutPage() {
 
   return (
     <Layout>
+      <Navigation/>
+      <div className="px-16 py-8">
       {!productsInfos.length && (
         <div>no products in your shopping cart</div>
       )}
@@ -70,10 +73,11 @@ export default function CheckoutPage() {
       )})}
       <form action="/api/checkout" method="POST">
         <div className="mt-8">
-          <input name="address" value={address} onChange={e => setAddress(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Street address, number"/>
-          <input name="city" value={city} onChange={e => setCity(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="City and postal code"/>
-          <input name="name" value={name} onChange={e => setName(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Your name"/>
-          <input name="email" value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="email" placeholder="Email address"/>
+          <label> Email Address
+        <input name="email" value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="email" placeholder="Email address" required/></label>
+        <label>Name <input name="name" value={name} onChange={e => setName(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Your name" required/></label>
+        <label>Address <input name="address" value={address} onChange={e => setAddress(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Street address, number and City" required/></label>
+        <label>Postal Code  <input name="city" value={city} onChange={e => setCity(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="postal code" required/></label>
         </div>
         <div className="mt-8">
           <div className="flex my-3">
@@ -92,6 +96,7 @@ export default function CheckoutPage() {
         <input type="hidden" name="products" value={selectedProducts.join(',')}/>
         <button type="submit" className="bg-emerald-500 px-5 py-2 rounded-xl font-bold text-white w-full my-4 shadow-emerald-300 shadow-lg">Pay ${total}</button>
       </form>
+      </div>
     </Layout>
   );
 }
